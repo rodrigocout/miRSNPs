@@ -1,0 +1,123 @@
+############################################
+### Load data
+############################################
+
+######################
+### Dados miR nivel 3
+### pre-processado
+######################
+
+#---load: miR reads_per_million e log2
+fl <- "~/Dropbox/BED_files_miRSNPS/TCGA/dados TCGA/gdac.broadinstitute.org_BRCA.miRseq_Mature_Preprocess.Level_3.2016012800.0.0/BRCA.miRseq_mature_RPM_log2.txt"
+gxmir <- read.table (fl, header = TRUE)
+rownames (gxmir) <- gxmir [, 1]; gxmir <- gxmir [, -1]
+
+#---parse ids (ENTREZ)
+nms <- rownames (gxmir)
+nms <- sub ("(\\|)(.)*", "", nms, perl = T)
+rownames (gxmir) <- nms
+colnames (gxmir) <- gsub ("\\.", "-", colnames (gxmir))
+gxmir <- as.matrix (gxmir)
+#gxmir <- gxmir [complete.cases (gxmir), ]
+#gxmir[is.na(gxmir)] <- 0
+#idx <- apply (gxmir, 1, mean)
+#gxmir <- gxmir[which(idx > 0), ]
+#all(rownames(gxmir) == names(idx[which(idx > 0)])) must be TRUE!!!
+
+######################
+### Dados mRNA nivel 3
+### normalizado
+######################
+
+#---load: gx RNA
+fl <- "~/Dropbox/BED_files_miRSNPS/TCGA/dados TCGA/gdac.broadinstitute.org_BRCA.Merge_rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.Level_3.2016012800.0.0/BRCA.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt"
+gxrna <- read.table (fl, skip = 2, header = FALSE)
+rownames (gxrna) <- gxrna [, 1]; gxrna <- gxrna [, -1]
+tmp <- read.table (fl, nrows = 1, header = FALSE, stringsAsFactors = FALSE)
+tmp <- tmp[, -c(1,2)]
+colnames (gxrna) <- tmp
+
+
+#---parse ids (ENTREZ)
+nms <- rownames (gxrna)
+#nms<-sub("(\\|)(.)*","",nms,perl=T)
+nms <- sub ("(.*?)(\\|)", "", nms, perl = T)
+rownames (gxrna) <- nms
+gxrna <- as.matrix (gxrna)
+#gxrna <- gxrna [complete.cases (gxrna), ]
+
+######################
+### Get sample IDs
+######################
+sampids_mir <- substr (colnames (gxmir), 1, 16)
+names (sampids_mir) <- colnames (gxmir)
+sampids_rna <- substr (colnames (gxrna), 1, 16)
+names (sampids_rna) <- colnames (gxrna)
+
+######################
+### Load and mactch ids
+######################
+#---Intersect samples
+samps <- intersect (sampids_mir, sampids_rna)
+dataFreeze <- matrix (NA, ncol = 2, nrow = length (samps), dimnames = list(samps, c('RNA-seq', 'miRNA')))
+dataFreeze[, 'RNA-seq'] <- names(sampids_rna[match (rownames(dataFreeze), sampids_rna)])
+dataFreeze[, 'miRNA'] <- names(sampids_mir[match (rownames(dataFreeze), sampids_mir)])
+
+colnames (gxrna) <- sampids_rna
+colnames (gxmir) <- sampids_mir
+
+
+############################################
+############################################
+############################################
+
+############################################
+### ADICIONA ANOTACAO DE GENES
+############################################
+
+#---get annotation
+library (org.Hs.eg.db)
+x <- org.Hs.egSYMBOL
+ENTREZ <- mappedkeys (x)
+SYMBOL <- unlist (as.list (x [ENTREZ]))
+geneids <- data.frame (ENTREZ = ENTREZ, SYMBOL = SYMBOL, stringsAsFactors = FALSE)
+geneids <- geneids [!duplicated (geneids$SYMBOL),]
+
+#--- remove ids que nao aparecem em ambos
+idx <- geneids$ENTREZ %in% rownames (gxrna)
+geneids <- geneids [idx, ]
+idx <- rownames (gxrna) %in% geneids$ENTREZ
+gxrna <- as.matrix (gxrna [idx, ])
+
+#---alinha gx com geneids
+rownames (geneids) <- geneids$ENTREZ
+geneids <- geneids [rownames(gxrna), ]
+all (rownames (geneids) == rownames (gxrna))
+
+#---Update geneids with miRNAs
+mirids <- rownames (gxmir)
+names (mirids) <- mirids
+temp <- cbind (mirids,mirids)
+rownames (temp) <- mirids
+x <- colnames (geneids)
+colnames (temp) <- x
+geneidsComplete <- rbind (geneids, temp)
+
+######################################
+### Primary tumour
+######################################
+idx<-grep("01",rownames(dataFreeze))
+dataFreeze<-dataFreeze[idx,]
+#--Update gexp
+gxrna <- gxrna[, rownames(dataFreeze)]
+gxmir <- gxmir[, rownames(dataFreeze)]
+#gexp <- rbind (gxrnaI, gxmirI)
+
+# #---Update Transcription Factors
+# load ("~/Copy/miR_bladder/old/datasets_old/Carro2010.RData")
+# tfs <- tfs [tfs$ENTREZ %in% geneids$ENTREZ,]
+# tfs <- geneids [tfs$ENTREZ, "ENTREZ"]
+# names (tfs) <- geneids [tfs, "SYMBOL"]
+
+#---
+save (geneidsComplete, mirids, dataFreeze, gxrna, gxmir, file = "~/Dropbox/BED_files_miRSNPS/TCGA/datasets/BRCA_gxp_samps_mirids.RData")
