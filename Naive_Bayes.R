@@ -8,7 +8,6 @@ load ("~/Dropbox/BED_files_miRSNPS/databases/bigdata.RData")
 #########################
 bdata <- bdata[,-3]
 
-
 #---bdata2
 bdata$miRSNP <- paste (bdata$SNP, bdata$miRNA, sep = "~")
 bdata2 <- data.frame (miRSNP = unique (bdata$miRSNP), mirsnpscpre = NA,
@@ -34,8 +33,6 @@ bdata2 [tmp$miRSNP,"polymirts"] <- tmp$socre
 #---SUB miRNA and SNP
 SNP <- sub ("(\\~)(.)*","", bdata2$miRSNP, perl=T)
 miRNA <- sub ("(.)*(\\~)", "", bdata2$miRSNP, perl=T)
-
-
 
 #---
 bdata2 <- bdata2[,-1]
