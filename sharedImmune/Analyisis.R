@@ -1,13 +1,8 @@
 ####Analysis miRSNP Naive Bayes and Autoimmune########
 setwd('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/')
-
 ####Extracting shared SNPs in each AID#####################
 #####Shared SNPs in AIT ##################################
 ait <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/AIT_shared.txt', header  = T)
-colnames(ait)
-dim(ait)
-class(ait)
-head(ait, n = 10)
 ait_SNPs <- unique(ait$Rs.Id)
 ait_SNPs <-as.data.frame(ait_SNPs)
 ait_SNPs[,1]
@@ -15,21 +10,12 @@ write.table(ait_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/pro
 
 ###Integrate AIT shared SNPs with Haploreg############
 ait_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/AIT_haploreg.txt", header = T)
-head(ait_haploreg)
-colnames(ait_haploreg)
-length(ait_haploreg$eQTL)
-length(unique(ait_haploreg$rsID))
 ait_proxies <- unique(ait_haploreg$rsID)
-class(ait_proxies)
 
 ait_df <- subset(ait_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "gwas", "GENCODE_name", "dbSNP_functional_annotation", "eQTL"))
 
 #####Shared SNPs in Alopecia#############
 alop <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Alopecia_shared.txt', header = T)
-colnames(alop)
-dim(alop)
-class(alop)
-head(alop, n = 10)
 alop_SNPs <- unique(alop$Rs.Id)
 alop_SNPs <-as.data.frame(alop_SNPs)
 alop_SNPs[,1]
@@ -37,13 +23,7 @@ write.table(alop_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/pr
 
 ############Integrate with Haploreg v4.1 results ###############
 alop_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Alop_haploreg.txt", header = T)
-head(alop_haploreg)
-colnames(alop_haploreg)
-length(alop_haploreg$eQTL)
-length(unique(alop_haploreg$rsID))
 alop_proxies <- unique(alop_haploreg$rsID)
-length(alop_proxies)
-
 alop_df <- subset(alop_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
 
 ########Shared SNPs in Anky######
@@ -55,11 +35,7 @@ write.table(ank_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/pro
 
 #####Integrate with Haploreg v4.1 results ##############
 ank_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Ank_haploreg.txt", header = T)
-head(ank_haploreg)
-colnames(ank_haploreg)
-length(unique(ank_haploreg$rsID))
 ank_proxies <- unique(ank_haploreg$rsID)
-length(ank_proxies)
 
 ank_df <- subset(ank_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
 
@@ -73,17 +49,12 @@ write.table(cel_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/pro
 
 #####Integrate with Haploreg v4.1 results ##############
 cel_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Cel_haploreg.txt", header = T)
-head(cel_haploreg)
-colnames(cel_haploreg)
-length(unique(cel_haploreg$rsID))
 cel_proxies <- unique(cel_haploreg$rsID)
-length(cel_proxies)
 
 cel_df <- subset(cel_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
 
 cel_haplo_sub <- subset(cel_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL"))
 colnames(cel_haplo_sub) <- c("chr", "pos_hg38","query_snp_rsid", "SNP","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL")
-
 ########Shared SNPs in Crohn######
 crohn <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Crohns_shared.txt', header = T)
 crohn_SNPs <- unique(crohn$Rs.Id)
@@ -91,21 +62,12 @@ crohn_SNPs <-as.data.frame(crohn_SNPs)
 crohn_SNPs[,1]
 length(crohn_SNPs[,1])
 write.table(crohn_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Crohn_SNPs.txt", sep ='\t', row.names = FALSE, col.names = FALSE, quote = FALSE)
-
 #####Integrate with Haploreg v4.1 results ##############
 crohn_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Crohn_haploreg.txt", header = T)
-head(crohn_haploreg)
-colnames(crohn_haploreg)
-length(unique(crohn_haploreg$rsID))
 crohn_proxies <- unique(crohn_haploreg$rsID)
-length(crohn_proxies)
-
 crohn_df <- subset(crohn_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
-
 cro_haplo_sub <- subset(crohn_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL"))
 colnames(cro_haplo_sub) <- c("chr", "pos_hg38","query_snp_rsid", "SNP","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL")
-
-
 ########Shared SNPs in IBD###################
 ibd <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IBD_shared.txt', header = T)
 ibd_SNPs <- unique(ibd$Rs.Id)
@@ -113,16 +75,10 @@ ibd_SNPs <-as.data.frame(ibd_SNPs)
 ibd_SNPs[,1]
 length(ibd_SNPs[,1])
 write.table(ibd_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IBD_SNPs.txt", sep ='\t', row.names = FALSE, col.names = FALSE, quote = FALSE)
-
 #####Integrate with Haploreg v4.1 results ##############
 ibd_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IBD_haploreg.txt", header = T)
-colnames(ibd_haploreg)
-length(unique(ibd_haploreg$rsID))
 ibd_proxies <- unique(ibd_haploreg$rsID)
-length(ibd_proxies)
-
 ibd_df <- subset(ibd_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
-
 ##########Shared IGE##############
 ige <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IGE_Allergic.txt', header = T)
 ige_SNPs <- unique(ige$Rs.Id)
@@ -130,16 +86,10 @@ ige_SNPs <-as.data.frame(ige_SNPs)
 ige_SNPs[,1]
 length(ige_SNPs[,1])
 write.table(ige_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IGE_SNPs.txt", sep ='\t', row.names = FALSE, col.names = FALSE, quote = FALSE)
-
 #####Integrate with Haploreg v4.1 results ##############
 ige_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/IGE_haploreg.txt", header = T)
-colnames(ige_haploreg)
-length(unique(ige_haploreg$rsID))
 ige_proxies <- unique(ige_haploreg$rsID)
-length(ige_proxies)
-
 ige_df <- subset(ige_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
-
 ########Shared Juvenile#############
 juv <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Juvenile_Arthistis_shared.txt', header = T)
 juv_SNPs <- unique(juv$Rs.Id)
@@ -147,19 +97,12 @@ juv_SNPs <-as.data.frame(juv_SNPs)
 juv_SNPs[,1]
 length(juv_SNPs[,1])
 write.table(juv_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Juv_SNPs.txt", sep ='\t', row.names = FALSE, col.names = FALSE, quote = FALSE)
-
 #####Integrate with Haploreg v4.1 results ##############
 juv_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Juv_haploreg.txt", header = T)
-colnames(juv_haploreg)
-length(unique(juv_haploreg$rsID))
 juv_proxies <- unique(juv_haploreg$rsID)
-length(juv_proxies)
-
 juv_df <- subset(juv_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
-
 jia_haplo_sub <- subset(juv_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL"))
 colnames(jia_haplo_sub) <- c("chr", "pos_hg38","query_snp_rsid", "SNP","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL")
-
 ########Shared Lupus##############
 lups <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Lupus_shared.txt' , header = T)
 lups_SNPs <- unique(lups$Rs.Id)
@@ -167,19 +110,14 @@ lups_SNPs <-as.data.frame(lups_SNPs)
 lups_SNPs[,1]
 length(lups_SNPs[,1])
 write.table(lups_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Lupus_SNPs.txt", sep ='\t', row.names = FALSE, col.names = FALSE, quote = FALSE)
-
 #####Integrate with Haploreg v4.1 results ##############
 lups_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Lupus_haploreg.txt", header = T)
-colnames(lups_haploreg)
-length(unique(lups_haploreg$rsID))
 lups_proxies <- unique(lups_haploreg$rsID)
-length(lups_proxies)
 
 lups_df <- subset(lups_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
 
 sle_haplo_sub <- subset(lups_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL"))
 colnames(sle_haplo_sub) <- c("chr", "pos_hg38","query_snp_rsid", "SNP","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL")
-
 
 ##########Shared MS#####################
 ms <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/MS_shared.txt', header = T)
@@ -271,16 +209,10 @@ write.table(ra_SNPs[,1], "/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proc
 
 #####Integrate with Haploreg v4.1 results ##############
 ra_haploreg <- read.delim("/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/RA_haploreg.txt", header = T)
-colnames(ra_haploreg)
-length(unique(ra_haploreg$rsID))
 ra_proxies <- unique(ra_haploreg$rsID)
-length(ra_proxies)
-
 ra_df <- subset(ra_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR","eQTL", "gwas", "GENCODE_name", "dbSNP_functional_annotation"))
-
 ra_haplo_sub <- subset(ra_haploreg, select = c("chr", "pos_hg38","query_snp_rsid", "rsID","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL"))
 colnames(ra_haplo_sub) <- c("chr", "pos_hg38","query_snp_rsid", "SNP","r2", "ref", "alt","EUR", "GENCODE_name", "eQTL")
-
 #######Shared SCLE #####################
 scle <- read.delim('/Users/Rodrigo/Documents/Pos_doc/IdeaS/Immunobase/proceed_data/shared_aid/Scleroderma_shared.txt', header = T)
 scle_SNPs <- unique(scle$Rs.Id)
@@ -834,7 +766,7 @@ dev.off()
 #pie(slices,labels = lbls, col=rainbow(length(lbls)),
  #   main="miRSNPs in Immune Diseases", cex = 0.8, density = 100) 
 
-#########Circusplot###########
+#########Circosplot###########
 ###First put all AID miRSNPs together
 aid_list <- paste(unique(alop_navy_haplo$rsID),unique(anky_navy_haplo$rsID),
                   unique(crohn_navy_haplo$rsID),unique(ibd_navy_haplo$rsID),
