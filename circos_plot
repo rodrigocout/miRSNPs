@@ -1,0 +1,59 @@
+setwd("/Users/Rodrigo/Dropbox/ESHG2017_mirSNPs")
+library(RCircos)
+data("UCSC.HG19.Human.CytoBandIdeogram")   
+cyto.info <-UCSC.HG19.Human.CytoBandIdeogram   
+
+tracks.inside <-10   
+tracks.outside <-0   
+chr.exclude <-c("chrY")   
+RCircos.Set.Core.Components (cyto.info, chr.exclude, tracks.inside,
+                             tracks.outside)
+pdf("mirsnpsRcircosv3.pdf", height = 8, width = 8, compress = T, res = 300)
+
+tiff("mirsnpsRcircosv3.tiff", units="in", width=11, height=10,res=300)
+
+#tiff("mirsnpsRcircosv4.tiff", units="in", width=8, height=8.5,res=300)
+RCircos.Set.Plot.Area() 
+RCircos.Chromosome.Ideogram.Plot() 
+name.col <-4 
+side <-"in" 
+
+mirnas <- read.delim("micrornas_bc_hg19.txt", header = T, sep="\t")
+#head(mirnas)
+
+#track.num <-1 
+#RCircos.Gene.Connector.Plot(genomic.data= mirnas, track.num = track.num,  side=side)  
+
+track.num <-1 
+RCircos.Gene.Name.Plot(mirnas, name.col,track.num, side)
+
+#mirsnp <- read.delim("miRSNPs.txt", header = T)
+#track.num <-5 
+#RCircos.Gene.Connector.Plot(genomic.data= mirsnp, track.num = track.num,  side=side)  
+
+#track.num <- 4
+#RCircos.Gene.Name.Plot(mirsnp,
+ #                      name.col,track.num, side)
+
+#RCircos.Line.Plot(line.data=mirsnp, data.col=4, 
+#                  track.num=4, side="in")
+
+genes <- read.delim("Targetgenes.txt", header = T, sep = '\t')
+ # head(genes)
+#track.num <-5
+
+#RCircos.Gene.Connector.Plot(genomic.data= genes, track.num = 4,  side=side)  
+track.num <- 3.5
+RCircos.Gene.Name.Plot(genes,
+                       name.col,track.num, side)
+
+#RCircos.Line.Plot(line.data=genes, data.col=4, 
+#                  track.num=5, side="in")
+
+link.data <- read.delim('link_mirnas_genes.txt')
+#head(link.data, n = 10)  
+
+RCircos.Link.Plot(link.data=link.data, track.num=5, 
+                  by.chromosome=F)
+
+dev.off()  
