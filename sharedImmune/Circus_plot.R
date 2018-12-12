@@ -1,18 +1,11 @@
 setwd('/Users/Rodrigo/Documents/Pos_doc/Projeto_epistasis_interacao/Circus/')
 library(RCircos)
 data(UCSC.HG19.Human.CytoBandIdeogram)
-head(UCSC.HG19.Human.CytoBandIdeogram)
 data(RCircos.Line.Data)
-head(RCircos.Line.Data)
 
 link.data <- read.delim('Circus_link.txt')
-head(link.data, n = 10)
-
 snps.label <- read.delim('SNPs_circus.txt')
-head(snps.label)
-
 gene.label <- read.delim('Genes_circus.txt')
-head(gene.label)
 
 chr.exclude <- c("chrX", "chrY", "chr1", "chr2", "chr4", "chr5", "chr6",
                  "chr7", "chr8", "chr9", "chr10", "chr11", "chr13", "chr14",'chr15', "chr16", "chr18", "chr20", "chr21")
@@ -62,10 +55,5 @@ RCircos.Link.Plot(link.data=link.data, track.num=3,
 dev.off()
 
 data(RCircos.Histogram.Data)
-head(RCircos.Histogram.Data)
-
 data(RCircos.Gene.Label.Data)
-head(RCircos.Gene.Label.Data)
-
 data(RCircos.Ribbon.Data)
-head(RCircos.Ribbon.Data)
