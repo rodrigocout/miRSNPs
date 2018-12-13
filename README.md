@@ -1,5 +1,3 @@
-# miRSNPs
-Data integration of SNPs and microRNAs
 ## This is a data integration approach using a Naive Bayes Classifier to identify SNPs on microRNAs binding sites (miRSNPs)
 This approach was used in this paper:
 
