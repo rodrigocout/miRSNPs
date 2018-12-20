@@ -5,3 +5,10 @@ Integrative Analysis Identifies Genetic Variants Associated With Autoimmune Dise
 
 And on this project presented as a poster at European Society of Human Genetics Conference 2017
 P12.001A - Integrative approach and eQTL analysis identify breast cancer risk genetic variants affecting microRNA binding sites.
+
+# Tools devolped with similar analysis
+## miRdiver 
+http://lgmh.c3sl.ufpr.br/miRdiver/index.html
+
+# miRSNapi
+http://lgmh.c3sl.ufpr.br/miRSNaPi/
