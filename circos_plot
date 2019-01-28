@@ -1,4 +1,3 @@
-setwd("/Users/Rodrigo/Dropbox/ESHG2017_mirSNPs")
 library(RCircos)
 data("UCSC.HG19.Human.CytoBandIdeogram")   
 cyto.info <-UCSC.HG19.Human.CytoBandIdeogram   
@@ -19,7 +18,6 @@ name.col <-4
 side <-"in" 
 
 mirnas <- read.delim("micrornas_bc_hg19.txt", header = T, sep="\t")
-#head(mirnas)
 
 #track.num <-1 
 #RCircos.Gene.Connector.Plot(genomic.data= mirnas, track.num = track.num,  side=side)  
@@ -51,9 +49,8 @@ RCircos.Gene.Name.Plot(genes,
 #                  track.num=5, side="in")
 
 link.data <- read.delim('link_mirnas_genes.txt')
-#head(link.data, n = 10)  
 
 RCircos.Link.Plot(link.data=link.data, track.num=5, 
-                  by.chromosome=F)
+                 by.chromosome=F)
 
 dev.off()  
